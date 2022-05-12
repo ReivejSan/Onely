@@ -17,11 +17,25 @@ class GameViewController: UIViewController {
     @IBOutlet weak var scoreLabel: UILabel?
     @IBOutlet weak var inputField: UITextField?
     @IBOutlet weak var timeLabel: UILabel!
+
+    @IBOutlet weak var vwContainer: UIImageView!
+    @IBOutlet weak var vwMinusContainer: UIImageView!
+    
+    @IBOutlet weak var heart1: UIImageView!
+    @IBOutlet weak var heart2: UIImageView!
+    @IBOutlet weak var heart3: UIImageView!
+    //    @IBAction override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {
+//        
+//    }
     
     public var score:Int = 0
     
     var timer:Timer?
     var seconds:Int = 60
+    
+    var mistake:Int = 0
+    
+    var isAlive:Bool = true
     
     var backgroundMusicPlayer: AVAudioPlayer!
     
@@ -32,6 +46,16 @@ class GameViewController: UIViewController {
         
         //playBackgrounMusic(filename: "Amusing_Day")
         
+        self.heart1.alpha = 1.0
+        self.heart2.alpha = 1.0
+        self.heart3.alpha = 1.0
+        
+        self.vwContainer.alpha = 0.0
+        self.vwContainer.layer.cornerRadius = 1.0
+        
+        self.vwMinusContainer.alpha = 0.0
+        self.vwMinusContainer.layer.cornerRadius = 1.0
+        
         setRandomNumberLabel()
         updateScoreLabel()
         
@@ -40,10 +64,11 @@ class GameViewController: UIViewController {
         inputField?.addTarget(self, action: #selector(GameViewController.textFieldDidChange(_:)), for: .editingChanged)
     }
     
+    
+    
     func setTimer() {
         if(timer == nil) {
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(onUpdateTimer), userInfo: nil, repeats: true)
-            
         }
     }
     
@@ -66,19 +91,84 @@ class GameViewController: UIViewController {
         }
         
         if let numbers_text = numbersLabel?.text, let input_text = inputField?.text, let numbers = Int(numbers_text), let input = Int(input_text) {
-            print("Comparing: \(input_text) minus \(numbers_text) == \(input - numbers)")
+            //print("Comparing: \(input_text) minus \(numbers_text) == \(input - numbers)")
             
             if(input - numbers == 1111) {
-                print("Correct")
+                //print("Correct")
                 MusicHelper.sharedHelper.playCorrectSFX()
                 inputField?.text = ""
                 score += 1
+                
+                if self.vwContainer.alpha == 0.0 {
+                    UIView.animate(withDuration: 0.3, delay: 0.3, options: .curveEaseOut, animations: {
+                        self.vwContainer.alpha = 1.0
+                    })
+                }
+                if self.vwContainer.alpha == 1.0 {
+                    UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseOut, animations: {
+                        self.vwContainer.alpha = 0.0
+                    })
+                }
             }
             else {
-                print("Incorect")
+                //print("Incorect")
                 MusicHelper.sharedHelper.playIncorrectSFX()
                 inputField?.text = ""
-                score -= 1
+                if(score > 0) {
+                    score -= 1
+                     
+                    if self.vwMinusContainer.alpha == 0.0 {
+                        UIView.animate(withDuration: 0.3, delay: 0.3, options: .curveEaseOut, animations: {
+                            self.vwMinusContainer.alpha = 1.0
+                        })
+                    }
+                    if self.vwMinusContainer.alpha == 1.0 {
+                        UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseOut, animations: {
+                            self.vwMinusContainer.alpha = 0.0
+                        })
+                    }
+                }
+                
+                mistake += 1
+                
+                if(mistake == 1) {
+                    UIView.animate(withDuration: 0.1, delay: 0.2, options: .curveEaseOut, animations: {
+                        self.heart1.alpha = 0.0
+                    })
+                }
+                if(mistake == 2) {
+                    UIView.animate(withDuration: 0.1, delay: 0.2, options: .curveEaseOut, animations: {
+                        self.heart2.alpha = 0.0
+                    })
+                }
+                if(mistake == 3) {
+                    isAlive = false
+                    UIView.animate(withDuration: 0.1, delay: 0.2, options: .curveEaseOut, animations: {
+                        self.heart3.alpha = 0.0
+                    })
+                    
+                    var alertController = UIAlertController(title: "Run out of Lives", message: "Your score is : \(score) points", preferredStyle: .alert)
+                    
+                    let restartAction = UIAlertAction(title: "Play Again", style: .default) {(action) in
+                        
+                        self.score = 0
+                        self.seconds = 60
+                        
+                        self.isAlive = true
+                        
+                        self.heart1.alpha = 1.0
+                        self.heart2.alpha = 1.0
+                        self.heart3.alpha = 1.0
+                        
+                        self.setTimer()
+                        self.updateTimeLabel()
+                        self.updateScoreLabel()
+                        self.setRandomNumberLabel()
+                    }
+                    
+                    alertController.addAction(restartAction)
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
         }
         
@@ -88,35 +178,46 @@ class GameViewController: UIViewController {
     }
     
     @objc func onUpdateTimer() -> Void {
-        if(seconds > 0 && seconds <= 60) {
-            seconds -= 1
-            updateTimeLabel()
-        }
-        else if (seconds == 0) {
-            if (timer != nil) {
-                timer!.invalidate()
-                timer = nil
-                
-                saveHighScore(number: score)
-                
-                var alertController = UIAlertController(title: "Time is Up!", message: "Your time is up! Your score is : \(score) points", preferredStyle: .alert)
-                
-                let restartAction = UIAlertAction(title: "Restart", style: .default) {(action) in
+        if(isAlive == true) {
+            if(seconds > 0 && seconds <= 60) {
+                seconds -= 1
+                updateTimeLabel()
+            }
+            else if (seconds == 0) {
+                if (timer != nil) {
+                    timer!.invalidate()
+                    timer = nil
                     
-                    self.score = 0
-                    self.seconds = 60
+                    MusicHelper.sharedHelper.playGameOverSFX()
                     
-                    self.setTimer()
-                    self.updateTimeLabel()
-                    self.updateScoreLabel()
-                    self.setRandomNumberLabel()
+                    saveHighScore(number: score)
+                    
+                    var alertController = UIAlertController(title: "Time is Up!", message: "Your time is up! Your score is : \(score) points", preferredStyle: .alert)
+                    
+                    let restartAction = UIAlertAction(title: "Play Again", style: .default) {(action) in
+                        
+                        self.score = 0
+                        self.seconds = 60
+                        
+                        self.isAlive = true
+                        
+                        self.heart1.alpha = 1.0
+                        self.heart2.alpha = 1.0
+                        self.heart3.alpha = 1.0
+                        
+                        self.setTimer()
+                        self.updateTimeLabel()
+                        self.updateScoreLabel()
+                        self.setRandomNumberLabel()
+                    }
+                    
+                    alertController.addAction(restartAction)
+                    self.present(alertController, animated: true, completion: nil)
+                    
                 }
-                
-                alertController.addAction(restartAction)
-                self.present(alertController, animated: true, completion: nil)
-                
             }
         }
+        
     }
     
     func updateTimeLabel() {
@@ -189,6 +290,7 @@ class MusicHelper {
     var audioPlayer: AVAudioPlayer?
     var sfxCorrectPlayer: AVAudioPlayer?
     var sfxIncorrectPlayer: AVAudioPlayer?
+    var sfxGameOverPlayer: AVAudioPlayer?
     
     func playBGM() {
 
@@ -197,6 +299,7 @@ class MusicHelper {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf:  bgm as URL)
             audioPlayer!.numberOfLoops = -1
+            audioPlayer!.volume = 0.8
             audioPlayer!.prepareToPlay()
             audioPlayer!.play()
         } catch {
@@ -212,11 +315,25 @@ class MusicHelper {
         audioPlayer?.pause()
     }
     
+    func playGameOverSFX() {
+        let sfxGameOver = NSURL(fileURLWithPath: Bundle.main.path(forResource: "gameOver", ofType: "mp3")!)
+        
+        do {
+            sfxGameOverPlayer = try AVAudioPlayer(contentsOf: sfxGameOver as URL)
+            sfxGameOverPlayer!.volume = 2.0
+            sfxGameOverPlayer!.prepareToPlay()
+            sfxGameOverPlayer!.play()
+        } catch {
+            print("Can't play sfx correct")
+        }
+    }
+    
     func playCorrectSFX() {
         let sfxCorrect = NSURL(fileURLWithPath: Bundle.main.path(forResource: "correct", ofType: "mp3")!)
         
         do {
             sfxCorrectPlayer = try AVAudioPlayer(contentsOf: sfxCorrect as URL)
+            sfxCorrectPlayer!.volume = 1.5
             sfxCorrectPlayer!.prepareToPlay()
             sfxCorrectPlayer!.play()
         } catch {
@@ -229,6 +346,7 @@ class MusicHelper {
         
         do {
             sfxIncorrectPlayer = try AVAudioPlayer(contentsOf: sfxIncorrect as URL)
+            sfxIncorrectPlayer!.volume = 1.5
             sfxIncorrectPlayer!.prepareToPlay()
             sfxIncorrectPlayer!.play()
         } catch {

@@ -10,6 +10,13 @@ import GameKit
 
 class ViewController: UIViewController, GKGameCenterControllerDelegate {
 
+//    @IBAction override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {
+//
+//    }
+    @IBAction func myUnwindAction(unwindSegue: UIStoryboardSegue) {
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -18,7 +25,6 @@ class ViewController: UIViewController, GKGameCenterControllerDelegate {
         
         authPlayer()
     }
-    
     
 
     @IBAction func openGC(_ sender: Any) {

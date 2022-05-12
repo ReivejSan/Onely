@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "howtoplay.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "image-removebg-preview-5.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
