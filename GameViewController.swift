@@ -71,19 +71,7 @@ class GameViewController: UIViewController {
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(onUpdateTimer), userInfo: nil, repeats: true)
         }
     }
-    
-//    func showHUDWithAnswer(isRight: Bool) {
-//        var imageView:UIImageView?
-//
-//        if isRight {
-//            ///
-//        }
-//        else {
-//
-//        }
-//
-//        if
-//    }
+
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         if inputField?.text?.count ?? 0 < 4 {
@@ -147,23 +135,11 @@ class GameViewController: UIViewController {
                         self.heart3.alpha = 0.0
                     })
                     
-                    var alertController = UIAlertController(title: "Run out of Lives", message: "Your score is : \(score) points", preferredStyle: .alert)
+                    let alertController = UIAlertController(title: "Run out of Lives", message: "Your score is : \(score) points", preferredStyle: .alert)
                     
                     let restartAction = UIAlertAction(title: "Play Again", style: .default) {(action) in
                         
-                        self.score = 0
-                        self.seconds = 60
-                        
-                        self.isAlive = true
-                        
-                        self.heart1.alpha = 1.0
-                        self.heart2.alpha = 1.0
-                        self.heart3.alpha = 1.0
-                        
-                        self.setTimer()
-                        self.updateTimeLabel()
-                        self.updateScoreLabel()
-                        self.setRandomNumberLabel()
+                        self.restartGame()
                     }
                     
                     alertController.addAction(restartAction)
@@ -192,23 +168,11 @@ class GameViewController: UIViewController {
                     
                     saveHighScore(number: score)
                     
-                    var alertController = UIAlertController(title: "Time is Up!", message: "Your time is up! Your score is : \(score) points", preferredStyle: .alert)
+                    let alertController = UIAlertController(title: "Time is Up!", message: "Your time is up! Your score is : \(score) points", preferredStyle: .alert)
                     
                     let restartAction = UIAlertAction(title: "Play Again", style: .default) {(action) in
                         
-                        self.score = 0
-                        self.seconds = 60
-                        
-                        self.isAlive = true
-                        
-                        self.heart1.alpha = 1.0
-                        self.heart2.alpha = 1.0
-                        self.heart3.alpha = 1.0
-                        
-                        self.setTimer()
-                        self.updateTimeLabel()
-                        self.updateScoreLabel()
-                        self.setRandomNumberLabel()
+                        self.restartGame()
                     }
                     
                     alertController.addAction(restartAction)
@@ -249,7 +213,7 @@ class GameViewController: UIViewController {
         var result: String = ""
         
         for _ in 1...4 {
-            var digit:Int = Int(arc4random_uniform(8) + 1)
+            let digit:Int = Int(arc4random_uniform(8) + 1)
             
             result += "\(digit)"
         }
@@ -265,6 +229,22 @@ class GameViewController: UIViewController {
             let scoreArray: [GKScore] = [scoreReporter]
             GKScore.report(scoreArray, withCompletionHandler: nil)
         }
+    }
+    
+    func restartGame() {
+        self.score = 0
+        self.seconds = 60
+        
+        self.isAlive = true
+        
+        self.heart1.alpha = 1.0
+        self.heart2.alpha = 1.0
+        self.heart3.alpha = 1.0
+        
+        self.setTimer()
+        self.updateTimeLabel()
+        self.updateScoreLabel()
+        self.setRandomNumberLabel()
     }
     
 //    func playBackgrounMusic(filename: String) {
@@ -285,73 +265,73 @@ class GameViewController: UIViewController {
 //    }
 }
 
-class MusicHelper {
-    static let sharedHelper = MusicHelper()
-    var audioPlayer: AVAudioPlayer?
-    var sfxCorrectPlayer: AVAudioPlayer?
-    var sfxIncorrectPlayer: AVAudioPlayer?
-    var sfxGameOverPlayer: AVAudioPlayer?
-    
-    func playBGM() {
-
-        let bgm = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Amusing_Day", ofType: "mp3")!)
-
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf:  bgm as URL)
-            audioPlayer!.numberOfLoops = -1
-            audioPlayer!.volume = 0.8
-            audioPlayer!.prepareToPlay()
-            audioPlayer!.play()
-        } catch {
-            print("Cannot Play File")
-        }
-    }
-
-    func stopBGM() {
-        audioPlayer!.stop()
-    }
-
-    func playSong(notification: NSNotification) {
-        audioPlayer?.pause()
-    }
-    
-    func playGameOverSFX() {
-        let sfxGameOver = NSURL(fileURLWithPath: Bundle.main.path(forResource: "gameOver", ofType: "mp3")!)
-        
-        do {
-            sfxGameOverPlayer = try AVAudioPlayer(contentsOf: sfxGameOver as URL)
-            sfxGameOverPlayer!.volume = 2.0
-            sfxGameOverPlayer!.prepareToPlay()
-            sfxGameOverPlayer!.play()
-        } catch {
-            print("Can't play sfx correct")
-        }
-    }
-    
-    func playCorrectSFX() {
-        let sfxCorrect = NSURL(fileURLWithPath: Bundle.main.path(forResource: "correct", ofType: "mp3")!)
-        
-        do {
-            sfxCorrectPlayer = try AVAudioPlayer(contentsOf: sfxCorrect as URL)
-            sfxCorrectPlayer!.volume = 1.5
-            sfxCorrectPlayer!.prepareToPlay()
-            sfxCorrectPlayer!.play()
-        } catch {
-            print("Can't play sfx correct")
-        }
-    }
-    
-    func playIncorrectSFX() {
-        let sfxIncorrect = NSURL(fileURLWithPath: Bundle.main.path(forResource: "incorrect", ofType: "mp3")!)
-        
-        do {
-            sfxIncorrectPlayer = try AVAudioPlayer(contentsOf: sfxIncorrect as URL)
-            sfxIncorrectPlayer!.volume = 1.5
-            sfxIncorrectPlayer!.prepareToPlay()
-            sfxIncorrectPlayer!.play()
-        } catch {
-            print("Can't play sfx correct")
-        }
-    }
-
-}
+//class MusicHelper {
+//    static let sharedHelper = MusicHelper()
+//    var audioPlayer: AVAudioPlayer?
+//    var sfxCorrectPlayer: AVAudioPlayer?
+//    var sfxIncorrectPlayer: AVAudioPlayer?
+//    var sfxGameOverPlayer: AVAudioPlayer?
+//
+//    func playBGM() {
+//
+//        let bgm = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Amusing_Day", ofType: "mp3")!)
+//
+//        do {
+//            audioPlayer = try AVAudioPlayer(contentsOf:  bgm as URL)
+//            audioPlayer!.numberOfLoops = -1
+//            audioPlayer!.volume = 0.8
+//            audioPlayer!.prepareToPlay()
+//            audioPlayer!.play()
+//        } catch {
+//            print("Cannot Play File")
+//        }
+//    }
+//
+//    func stopBGM() {
+//        audioPlayer!.stop()
+//    }
+//
+//    func playSong(notification: NSNotification) {
+//        audioPlayer?.pause()
+//    }
+//
+//    func playGameOverSFX() {
+//        let sfxGameOver = NSURL(fileURLWithPath: Bundle.main.path(forResource: "gameOver", ofType: "mp3")!)
+//
+//        do {
+//            sfxGameOverPlayer = try AVAudioPlayer(contentsOf: sfxGameOver as URL)
+//            sfxGameOverPlayer!.volume = 2.0
+//            sfxGameOverPlayer!.prepareToPlay()
+//            sfxGameOverPlayer!.play()
+//        } catch {
+//            print("Can't play sfx correct")
+//        }
+//    }
+//
+//    func playCorrectSFX() {
+//        let sfxCorrect = NSURL(fileURLWithPath: Bundle.main.path(forResource: "correct", ofType: "mp3")!)
+//
+//        do {
+//            sfxCorrectPlayer = try AVAudioPlayer(contentsOf: sfxCorrect as URL)
+//            sfxCorrectPlayer!.volume = 1.5
+//            sfxCorrectPlayer!.prepareToPlay()
+//            sfxCorrectPlayer!.play()
+//        } catch {
+//            print("Can't play sfx correct")
+//        }
+//    }
+//
+//    func playIncorrectSFX() {
+//        let sfxIncorrect = NSURL(fileURLWithPath: Bundle.main.path(forResource: "incorrect", ofType: "mp3")!)
+//
+//        do {
+//            sfxIncorrectPlayer = try AVAudioPlayer(contentsOf: sfxIncorrect as URL)
+//            sfxIncorrectPlayer!.volume = 1.5
+//            sfxIncorrectPlayer!.prepareToPlay()
+//            sfxIncorrectPlayer!.play()
+//        } catch {
+//            print("Can't play sfx correct")
+//        }
+//    }
+//
+//}
