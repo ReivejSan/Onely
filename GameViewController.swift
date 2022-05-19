@@ -131,6 +131,7 @@ class GameViewController: UIViewController {
                 }
                 if(mistake == 3) {
                     isAlive = false
+                    
                     UIView.animate(withDuration: 0.1, delay: 0.2, options: .curveEaseOut, animations: {
                         self.heart3.alpha = 0.0
                     })
@@ -164,13 +165,15 @@ class GameViewController: UIViewController {
                     timer!.invalidate()
                     timer = nil
                     
-                    MusicHelper.sharedHelper.playGameOverSFX()
+                    //MusicHelper.sharedHelper.playGameOverSFX()
                     
                     saveHighScore(number: score)
                     
                     let alertController = UIAlertController(title: "Time is Up!", message: "Your time is up! Your score is : \(score) points", preferredStyle: .alert)
                     
                     let restartAction = UIAlertAction(title: "Play Again", style: .default) {(action) in
+                        
+                        MusicHelper.sharedHelper.playGameOverSFX()
                         
                         self.restartGame()
                     }
@@ -234,6 +237,8 @@ class GameViewController: UIViewController {
     func restartGame() {
         self.score = 0
         self.seconds = 60
+        
+        self.mistake = 0
         
         self.isAlive = true
         

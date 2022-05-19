@@ -13,6 +13,7 @@ class MusicHelper {
     var backgroundMusicPlayer: AVAudioPlayer!
     
     static let sharedHelper = MusicHelper()
+    
     var audioPlayer: AVAudioPlayer?
     var sfxCorrectPlayer: AVAudioPlayer?
     var sfxIncorrectPlayer: AVAudioPlayer?

@@ -16,10 +16,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fixedbackground-6" translatesAutoresizingMaskIntoConstraints="NO" id="AUD-2k-3Xj">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fixedbackground-13" translatesAutoresizingMaskIntoConstraints="NO" id="AUD-2k-3Xj">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoGame" translatesAutoresizingMaskIntoConstraints="NO" id="uoY-H3-Jaa">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tak berjudul361_20220518203923" translatesAutoresizingMaskIntoConstraints="NO" id="uoY-H3-Jaa">
                                 <rect key="frame" x="87" y="328" width="240" height="240"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="240" id="Bnt-ky-Ard"/>
@@ -45,8 +45,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="fixedbackground-6" width="1280" height="2532"/>
-        <image name="logoGame" width="300" height="300"/>
+        <image name="Tak berjudul361_20220518203923" width="2096" height="2096"/>
+        <image name="fixedbackground-13" width="1280" height="2532"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
