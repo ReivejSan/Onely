@@ -1,49 +1,49 @@
 {
   "images" : [
     {
-      "filename" : "iphoneNotifSmol.jpg",
+      "filename" : "iphoneNotificationSmall.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "iphoneNotifDekai.jpg",
+      "filename" : "iphoneNotificationLarge.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "iphoneSettingSmol.jpg",
+      "filename" : "iPhoneSettingsSmall.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "iphoneSettingDekai.jpg",
+      "filename" : "iphoneSettingsLarge.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "iphoneSpotlightSmol.jpg",
+      "filename" : "iphoneSpotlightSmall.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "iphoneSpotlightDekai.jpg",
+      "filename" : "iphoneSpotlightLargeandAppSmall-1.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "iphoneAppSmol-1.jpg",
+      "filename" : "iphoneSpotlightLargeandAppSmall.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "iphoneAppDekai.jpg",
+      "filename" : "iphoneAppLarge.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
@@ -94,7 +94,7 @@
       "size" : "83.5x83.5"
     },
     {
-      "filename" : "AppStore.jpg",
+      "filename" : "appstoreiOS.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
